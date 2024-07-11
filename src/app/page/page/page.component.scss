@@ -6,6 +6,13 @@ nav{
     font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
     color: white;
     width: 100%;
+    h3{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        right: 130px;
+        top: 40px;
+    }
 
     .theme{
         width: 90%;
@@ -62,6 +69,7 @@ nav{
     }
    
 }
+
 main{
     width: 100%;
     display: flex;
@@ -76,10 +84,26 @@ main{
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        .responseBar{
-            background-color: hsl(224, 36%, 15%);
-        }
 
+        .responseBar{
+            color: white;
+            background-color: rgb(24, 32, 52);
+            height: 100px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 315px;
+            margin-bottom: 10px;
+            padding: 10px;
+            p{
+                position: relative;
+                display: flex;
+                justify-content: flex-end;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-size: 2.3rem;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
         .numbersAndCalcs{
             display: flex;
             justify-content: center;
@@ -132,6 +156,5 @@ main{
                 }
             }
         }
-    }
-    
+    }   
 }
