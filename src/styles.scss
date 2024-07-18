@@ -1,4 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "styles/variables";
+
 html,body{
-    background-color: hsl(222, 26%, 31%);
+    background-color: var(--bg-primary);
+    nav{
+        color: var(--text);
+    }
+    .choise{
+        background-color: var(--color-main);
+        .circle{
+            background-color: var(--bg-circle);
+        }
+        .button{
+            color: var(--color-main);
+        }
+    }
+    main{
+        .responseBar{
+            color: var(--text);
+            background-color: var(--bg-response-bar);
+        }
+        .numbersAndCalcs{
+            background-color: var(--bg-numbers-calcs);
+        }
+        li{
+            &:hover{
+                background-color: var(--hover);
+            }
+            color: var(--color-text-one);
+            background-color: var(--bg-number-main);
+            box-shadow: 0 4px 1px var(--shadow-box-number-main);
+            &.reset{
+                color: var(--text-btn-reset);
+                background-color: var(--bg-reset-btn);
+                box-shadow: 0 4px 1px var(--shadow-box-reset-btn);
+            }
+            &.equal{
+                color: var(--text-btn-equal);
+                background-color: var(--bg-equal-btn);
+                box-shadow: 0 4px 1px var(--shadow-box-equal-btn);
+            }
+        }
+    }
 }
