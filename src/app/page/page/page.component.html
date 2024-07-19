@@ -21,9 +21,14 @@
 
 <main>
     <section>
-        <div class="responseBar">
-            <p> {{ screenContent }} </p>
+        <div class="responseBar" >
+            <div class="historic">
+                <p class="p2"*ngFor="let item of history"> {{ item }} </p>
+            </div>
+
+            <p class="p"> {{ screenContent }} </p>
         </div>
+        
 
         <div class="numbersAndCalcs">
             <ul>

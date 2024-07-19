@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
@@ -10,9 +11,10 @@ export class PageComponent implements OnInit {
 
   buttons = [
     "1", "2", "3", "DEL",
-    "4", "5", "6", "+",
-    "7", "8", "9", "-",
-    ".", "0", "/", "X"
+    "4", "5", "6", "-",
+    "7", "8", "9", "+",
+    ".", "0", "/", "X",
+    "x²", "√",
   ];
 
   theme = 'normal';
@@ -20,12 +22,15 @@ export class PageComponent implements OnInit {
   number_1 = '';
   rule = '';
   number_2 = '';
+  history: string[] = [];
 
   ngOnInit(): void {}
 
   actionClick(button: string) {
     console.log(button);
-    
+
+    this.history.push(button);
+
     if (['-', '+', '/', 'X'].includes(button)) {
       this.calcular();
 
@@ -35,22 +40,43 @@ export class PageComponent implements OnInit {
       }
 
     } else if (button === '.') {
-      this.screenContent += '.';
+      if (!this.screenContent.includes('.')) {
+        this.screenContent += '.';
+      }
     } else if (button === 'DEL') {
       this.screenContent = this.screenContent.slice(0, -1);
+    } else if (button === 'x²') {
+      this.calcular('square');
+    } else if (button === '√') {
+      this.calcular('sqrt');
     } else {
-      this.screenContent += button;
+        this.screenContent += button;
     }
-    console.log(button);
   }
 
-  calcular() {
+  calcular(operation?: string) {
+    if (operation === 'square') {
+      const base = parseFloat(this.screenContent);
+      const result = base * base;
+      this.screenContent = result.toString();
+      this.history.push(`= ${result}`); 
+      return;
+    }
+
+    if (operation === 'sqrt') {
+      const number = parseFloat(this.screenContent);
+      const result = Math.sqrt(number);
+      this.screenContent = result.toString();
+      this.history.push(`= ${result}`);
+      return;
+    }
+
     const [number1, operator, number2] = this.screenContent.split(' ').map((item) => item.trim());
     let result: number = 0;
 
     console.log(number1, operator, number2);
-    
-    if(!number2) return;
+
+    if (!number2) return;
 
     switch (operator) {
       case '+':
@@ -64,16 +90,18 @@ export class PageComponent implements OnInit {
         break;
       case '/':
         result = parseFloat(number1) / parseFloat(number2);
-        break;
+        break;  
     }
 
     this.screenContent = result.toString();
+    this.history.push(`= ${result}`);
     this.rule = '';
   }
 
   reset() {
     this.screenContent = '';
     this.rule = '';
+    this.history = [];
   }
 
   solution() {
@@ -98,15 +126,15 @@ export class PageComponent implements OnInit {
       html?.classList.add('light');
     }
     else if (theme === 'dark') {
-      html?.classList.remove('ligth');
+      html?.classList.remove('light');
       html?.classList.add('dark');
     }
-}
+  }
 
   get setClass() {
     if (this.theme === 'normal') return 'normal';
     if (this.theme === 'light') return 'light';
     if (this.theme === 'dark') return 'dark';
     return '';
-   }
+  }
 }

@@ -20,6 +20,9 @@ html,body{
         .responseBar{
             color: var(--text);
             background-color: var(--bg-response-bar);
+            .historic{
+                color: var(--color-historic);
+            }
         }
         .numbersAndCalcs{
             background-color: var(--bg-numbers-calcs);
