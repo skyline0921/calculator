@@ -28,17 +28,16 @@ export class PageComponent implements OnInit {
 
   actionClick(button: string) {
     console.log(button);
-
     this.history.push(button);
-
+  
     if (['-', '+', '/', 'X'].includes(button)) {
       this.calcular();
-
+  
       if (this.rule === '') {
         this.rule = button;
         this.screenContent += ` ${button} `;
       }
-
+  
     } else if (button === '.') {
       if (!this.screenContent.includes('.')) {
         this.screenContent += '.';
@@ -48,11 +47,17 @@ export class PageComponent implements OnInit {
     } else if (button === 'x²') {
       this.calcular('square');
     } else if (button === '√') {
-      this.calcular('sqrt');
+      if (!this.screenContent || isNaN(Number(this.screenContent))) {
+        if (!this.screenContent.startsWith('√')) {
+          this.screenContent = `√${this.screenContent}`;
+        }
+      } else {
+        alert('Operação inválida: não pode calcular a raiz de um número no formato atual.');
+      }
     } else {
-        this.screenContent += button;
+      this.screenContent += button;
     }
-  }
+  }  
 
   calcular(operation?: string) {
     if (operation === 'square') {
@@ -62,22 +67,22 @@ export class PageComponent implements OnInit {
       this.history.push(`= ${result}`); 
       return;
     }
-
-    if (operation === 'sqrt') {
-      const number = parseFloat(this.screenContent);
+  
+    if (operation === 'sqrt' || this.screenContent.startsWith('√')) {
+      const number = parseFloat(this.screenContent.replace('√', ''));
       const result = Math.sqrt(number);
       this.screenContent = result.toString();
       this.history.push(`= ${result}`);
       return;
     }
-
+  
     const [number1, operator, number2] = this.screenContent.split(' ').map((item) => item.trim());
     let result: number = 0;
-
+  
     console.log(number1, operator, number2);
-
+  
     if (!number2) return;
-
+  
     switch (operator) {
       case '+':
         result = parseFloat(number1) + parseFloat(number2);
@@ -92,7 +97,7 @@ export class PageComponent implements OnInit {
         result = parseFloat(number1) / parseFloat(number2);
         break;  
     }
-
+  
     this.screenContent = result.toString();
     this.history.push(`= ${result}`);
     this.rule = '';
