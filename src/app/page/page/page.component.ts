@@ -24,7 +24,43 @@ export class PageComponent implements OnInit {
   number_2 = '';
   history: string[] = [];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    window.addEventListener('keydown', this.handleKeydown.bind(this));
+  }
+
+  handleKeydown(event: KeyboardEvent): void {
+    const key = event.key;
+  
+    if (!isNaN(Number(key))) {
+      this.actionClick(key);
+    } else if (key === '1') {
+      this.actionClick('1');
+    } else if (key === '2') {
+      this.actionClick('2');
+    } else if (key === '3') {
+      this.actionClick('3');
+    } else if (key === '4') {
+      this.actionClick('4');
+    } else if (key === '5') {
+      this.actionClick('5');
+    } else if (key === '6') {
+      this.actionClick('6');
+    } else if (key === '7') {
+      this.actionClick('7');
+    } else if (key === '8') {
+      this.actionClick('8');
+    } else if (key === '9') {
+      this.actionClick('9');
+    } else if (key === '0') {
+      this.actionClick('0');
+    } else if (key === 'Enter') { 
+      this.solution()
+    }
+    else if (key === 'Backspace') { 
+      this.actionClick('DEL')
+    }
+  }
+  
 
   actionClick(button: string) {
     console.log(button);
@@ -36,7 +72,6 @@ export class PageComponent implements OnInit {
       this.history.push(button);
     }
 
-    // Limitar a entrada a 17 caracteres
     if (this.screenContent.length >= 17 && button !== 'DEL') {
       return;
     }
@@ -155,5 +190,5 @@ export class PageComponent implements OnInit {
     if (this.theme === 'light') return 'light';
     if (this.theme === 'dark') return 'dark';
     return '';
-  } 
+  }
 }
