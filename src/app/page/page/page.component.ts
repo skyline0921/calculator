@@ -28,36 +28,50 @@ export class PageComponent implements OnInit {
 
   actionClick(button: string) {
     console.log(button);
-    this.history.push(button);
-  
+
+    if (button !== 'DEL') {
+      if (this.history.length >= 17) {
+        return;
+      }
+      this.history.push(button);
+    }
+
+    // Limitar a entrada a 17 caracteres
+    if (this.screenContent.length >= 17 && button !== 'DEL') {
+      return;
+    }
+
     if (['-', '+', '/', 'X'].includes(button)) {
       this.calcular();
-  
+
       if (this.rule === '') {
         this.rule = button;
         this.screenContent += ` ${button} `;
       }
-  
+
     } else if (button === '.') {
       if (!this.screenContent.includes('.')) {
         this.screenContent += '.';
       }
     } else if (button === 'DEL') {
       this.screenContent = this.screenContent.slice(0, -1);
+      if (this.history.length > 0) {
+        this.history.pop(); 
+      }
     } else if (button === 'x²') {
       this.calcular('square');
     } else if (button === '√') {
-      if (!this.screenContent || isNaN(Number(this.screenContent))) {
+      if (this.screenContent && !isNaN(Number(this.screenContent))) {
+        alert('Operação inválida: não pode calcular a raiz de um número no formato atual.');
+      } else {
         if (!this.screenContent.startsWith('√')) {
           this.screenContent = `√${this.screenContent}`;
         }
-      } else {
-        alert('Operação inválida: não pode calcular a raiz de um número no formato atual.');
       }
     } else {
       this.screenContent += button;
     }
-  }  
+  }
 
   calcular(operation?: string) {
     if (operation === 'square') {
@@ -67,22 +81,22 @@ export class PageComponent implements OnInit {
       this.history.push(`= ${result}`); 
       return;
     }
-  
+
     if (operation === 'sqrt' || this.screenContent.startsWith('√')) {
-      const number = parseFloat(this.screenContent.replace('√', ''));
+      const number = parseFloat(this.screenContent.replace(/[√()]/g, ''));
       const result = Math.sqrt(number);
       this.screenContent = result.toString();
       this.history.push(`= ${result}`);
       return;
     }
-  
+
     const [number1, operator, number2] = this.screenContent.split(' ').map((item) => item.trim());
     let result: number = 0;
-  
+
     console.log(number1, operator, number2);
-  
+
     if (!number2) return;
-  
+
     switch (operator) {
       case '+':
         result = parseFloat(number1) + parseFloat(number2);
@@ -97,7 +111,7 @@ export class PageComponent implements OnInit {
         result = parseFloat(number1) / parseFloat(number2);
         break;  
     }
-  
+
     this.screenContent = result.toString();
     this.history.push(`= ${result}`);
     this.rule = '';
@@ -117,7 +131,7 @@ export class PageComponent implements OnInit {
     }
   }
 
-  choiseTheme(theme:'normal' | 'light' | 'dark') {
+  choiseTheme(theme: 'normal' | 'light' | 'dark') {
     this.theme = theme;
     localStorage.setItem('theme', theme); 
     const html = document.querySelector('html');
@@ -141,5 +155,5 @@ export class PageComponent implements OnInit {
     if (this.theme === 'light') return 'light';
     if (this.theme === 'dark') return 'dark';
     return '';
-  }
+  } 
 }
