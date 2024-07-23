@@ -55,25 +55,34 @@ export class PageComponent implements OnInit {
       this.actionClick('0');
     } else if (key === 'Enter') { 
       this.solution()
-    }
-    else if (key === 'Backspace') { 
+    } else if (key === 'Backspace') {  
       this.actionClick('DEL')
+    } else if (key === 'Delete') { 
+      this.reset()
+    } else if (key === '+') { 
+      this.actionClick('+')
+    } else if (key === '-') { 
+      this.actionClick('-')
+    } else if (key === '*') { 
+      this.actionClick('X')
+    } else if (key === '/') { 
+      this.actionClick('/')
+    } else if (key === '√') { 
+      this.actionClick('√')
+    } else if (key === 'x²') { 
+      this.actionClick('x²')
+    } else if (key === '.') { 
+      this.actionClick('.')
+    } else if (key === '=') { 
+      this.solution()
     }
   }
-  
 
   actionClick(button: string) {
     console.log(button);
 
     if (button !== 'DEL') {
-      if (this.history.length >= 17) {
-        return;
-      }
       this.history.push(button);
-    }
-
-    if (this.screenContent.length >= 17 && button !== 'DEL') {
-      return;
     }
 
     if (['-', '+', '/', 'X'].includes(button)) {
